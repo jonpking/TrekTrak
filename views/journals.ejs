@@ -1,16 +1,28 @@
 <%- include ("partials/header") %>
 
-<h1>JOURNALS</h1>
+<div class="container">
+    <header class="jumbotron">
+        <div class="container">
+            <h1>Welcome to TrekTrak!</h1>
+            <p>Where has life taken you lately?</p>
+            <p>
+                <a class="btn btn-primary btn-lg" href="/journals/new">Start new Journal</a>
+            </p>
+        </div>
+    </header>
 
-<a href="/journals/new">Start new Journal</a>
-
-<% journals.forEach(function(journal){ %>
-<div>
-    <h4>
-        <%= journal.name %>
-    </h4>
-    <img src="<%= journal.image %>" alt="">
+    <div class="row text-center">
+        <% journals.forEach(function(journal){ %>
+        <div class="col-md-3 col-sm-6">
+            <div class="img-thumbnail">
+                <img class="img-fluid" src="<%= journal.image %>" alt="">
+                <div class="caption">
+                    <h4><%= journal.name %></h4>
+                </div>
+            </div>
+        </div>
+        <% }); %>
+    </div>
 </div>
-<% }); %>
 
 <%- include ("partials/footer") %>
