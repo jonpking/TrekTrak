@@ -1,0 +1,10 @@
+<h1>JOURNALS</h1>
+
+<% journals.forEach(function(journal){ %>
+<div>
+    <h4>
+        <%= journal.name %>
+    </h4>
+    <img src="<%= journal.image %>" alt="">
+</div>
+<% }); %>
