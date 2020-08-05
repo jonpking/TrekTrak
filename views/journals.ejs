@@ -1,3 +1,5 @@
+<%- include ("partials/header") %>
+
 <h1>JOURNALS</h1>
 
 <% journals.forEach(function(journal){ %>
@@ -8,3 +10,5 @@
     <img src="<%= journal.image %>" alt="">
 </div>
 <% }); %>
+
+<%- include ("partials/footer") %>
