@@ -6,20 +6,21 @@ const mongoose = require("mongoose");
 const journals = [
     {
         name: "trip to the river",
-        image: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80"
+        image: "https://images.unsplash.com/photo-1455577380025-4321f1e1dca7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
     },
     {
         name: "mountain journey",
-        image: "https://upload.wikimedia.org/wikipedia/commons/d/d1/Mount_Everest_as_seen_from_Drukair2_PLW_edit.jpg"
+        image: "https://images.unsplash.com/photo-1549880338-65ddcdfd017b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
     },
     {
         name: "ballpark tour",
-        image: "https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/nats17_top.jpg"
-    },
+        image: "https://images.unsplash.com/photo-1470755711115-961e80ee0284?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
+    }
 ];
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
+app.use(express.static(__dirname + "/public"));
 
 app.get("/", function (req, res) {
     res.render("landing");
