@@ -14,7 +14,8 @@ mongoose.connect("mongodb://localhost:27017/trek_trak", {
 // SCHEMA SETUP
 const journalSchema = new mongoose.Schema({
     name: String,
-    image: String
+    image: String,
+    description: String
 });
 
 const Journal = mongoose.model("Journal", journalSchema);
@@ -34,7 +35,7 @@ app.get("/journals", function (req, res) {
         if (err) {
             console.log(err);
         } else {
-            res.render("journals", { journals: allJournals });
+            res.render("index", { journals: allJournals });
         }
     });
 });
@@ -43,7 +44,8 @@ app.get("/journals", function (req, res) {
 app.post("/journals", function (req, res) {
     const name = req.body.name;
     const image = req.body.image;
-    const newJournal = { name: name, image: image };
+    const desc = req.body.description;
+    const newJournal = { name: name, image: image, description: desc };
     Journal.create(newJournal, function (err, createdJournal) {
         if (err) {
             console.log(err);
@@ -56,6 +58,17 @@ app.post("/journals", function (req, res) {
 // NEW ROUTE
 app.get("/journals/new", function (req, res) {
     res.render("new");
+});
+
+// SHOW ROUTE
+app.get("/journals/:id", function (req, res) {
+    Journal.findById(req.params.id, function (err, foundJournal) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.render("show", { journal: foundJournal });
+        }
+    });
 });
 
 app.listen(3000, function () {
