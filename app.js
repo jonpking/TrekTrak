@@ -3,41 +3,57 @@ const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
-const journals = [
-    {
-        name: "trip to the river",
-        image: "https://images.unsplash.com/photo-1455577380025-4321f1e1dca7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
-    },
-    {
-        name: "mountain journey",
-        image: "https://images.unsplash.com/photo-1549880338-65ddcdfd017b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
-    },
-    {
-        name: "ballpark tour",
-        image: "https://images.unsplash.com/photo-1470755711115-961e80ee0284?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
-    }
-];
+mongoose.connect("mongodb://localhost:27017/trek_trak", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false
+})
+    .then(() => console.log("Connected to DB!"))
+    .catch(err => console.log(error.message));
+
+// SCHEMA SETUP
+const journalSchema = new mongoose.Schema({
+    name: String,
+    image: String
+});
+
+const Journal = mongoose.model("Journal", journalSchema);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 
+// ROOT ROUTE
 app.get("/", function (req, res) {
     res.render("landing");
 });
 
+// INDEX ROUTE
 app.get("/journals", function (req, res) {
-    res.render("journals", { journals: journals });
+    Journal.find({}, function (err, allJournals) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.render("journals", { journals: allJournals });
+        }
+    });
 });
 
+// CREATE ROUTE
 app.post("/journals", function (req, res) {
     const name = req.body.name;
     const image = req.body.image;
     const newJournal = { name: name, image: image };
-    journals.push(newJournal);
-    res.redirect("/journals");
+    Journal.create(newJournal, function (err, createdJournal) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.redirect("/journals");
+        }
+    });
 });
 
+// NEW ROUTE
 app.get("/journals/new", function (req, res) {
     res.render("new");
 });
