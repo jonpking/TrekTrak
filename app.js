@@ -71,6 +71,17 @@ app.get("/journals/:id", function (req, res) {
     });
 });
 
+// EDIT ROUTE
+app.get("/journals/:id/edit", function (req, res) {
+    Journal.findById(req.params.id, function (err, foundJournal) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.render("edit", { journal: foundJournal });
+        }
+    });
+});
+
 app.listen(3000, function () {
     console.log("TrekTrak server has started");
 });
