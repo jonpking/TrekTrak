@@ -95,6 +95,17 @@ app.put("/journals/:id", function (req, res) {
     });
 });
 
+// DELETE/DESTROY ROUTE
+app.delete("/journals/:id", function (req, res) {
+    Journal.findByIdAndDelete(req.params.id, function (err) {
+        if (err) {
+            res.redirect("/journals");
+        } else {
+            res.redirect("/journals");
+        }
+    });
+});
+
 app.listen(3000, function () {
     console.log("TrekTrak server has started");
 });
