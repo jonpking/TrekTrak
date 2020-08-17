@@ -20,6 +20,9 @@
                     <h4><%= journal.name %></h4>
                     <a class="btn btn-primary" href="/journals/<%= journal._id %>">Details</a>
                     <a class="btn btn-warning" href="/journals/<%= journal._id %>/edit">Edit</a>
+                    <form class="" action="/journals/<%= journal._id %>?_method=DELETE" method="POST">
+                        <button class="btn btn-danger">Delete</button>
+                    </form>
                 </div>
             </div>
         </div>
