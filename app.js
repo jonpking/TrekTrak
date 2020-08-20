@@ -116,14 +116,14 @@ app.get("/journals/:id/comments/new", function (req, res) {
         if (err) {
             console.log(err);
         } else {
-            res.render("./comments/new", { journal: journal });
+            res.render("comments/new", { journal: journal });
         }
     });
 });
 
 // COMMENT - CREATE ROUTE
-app.post("journals/:id/comments/", function (req, res) {
-    journal.findById(req.params.id, function (err, journal) {
+app.post("/journals/:id/comments", function (req, res) {
+    Journal.findById(req.params.id, function (err, journal) {
         if (err) {
             console.log(err);
             res.redirect("/journals");
@@ -132,7 +132,9 @@ app.post("journals/:id/comments/", function (req, res) {
                 if (err) {
                     console.log(err);
                 } else {
-                    // create comment
+                    journal.comments.push(comment);
+                    journal.save();
+                    res.redirect("/journals/" + journal._id);
                 }
             })
         }
