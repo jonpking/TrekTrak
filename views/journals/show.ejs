@@ -10,6 +10,8 @@
 <p>
     <strong><%= comment.author %></strong> - <%= comment.text %>
 </p>
+<a class="btn btn-primary" href="/journals/<%= journal._id %>/comments/new">Add Comment</a>
+<a class="btn btn-warning" href="/journals/<%= journal._id %>/comments/<%= comment._id %>/edit">Edit Comment</a>
 <% }); %>
 
 <a href="/journals">Back</a>
