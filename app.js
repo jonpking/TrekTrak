@@ -3,6 +3,8 @@ const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
+const Journal = require("./models/journal");
+const Comment = require("./models/comment");
 
 mongoose.connect("mongodb://localhost:27017/trek_trak", {
     useNewUrlParser: true,
@@ -11,28 +13,6 @@ mongoose.connect("mongodb://localhost:27017/trek_trak", {
 })
     .then(() => console.log("Connected to DB!"))
     .catch(err => console.log(error.message));
-
-// SCHEMA SETUP
-const journalSchema = new mongoose.Schema({
-    name: String,
-    image: String,
-    description: String
-});
-
-const Journal = mongoose.model("Journal", journalSchema);
-
-const commentSchema = new mongoose.Schema({
-    author: {
-        id: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User"
-        },
-        username: String
-    },
-    text: String
-});
-
-const Comment = mongoose.model("Comment", commentSchema);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
