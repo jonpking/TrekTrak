@@ -12,6 +12,9 @@
 </p>
 <a class="btn btn-primary" href="/journals/<%= journal._id %>/comments/new">Add Comment</a>
 <a class="btn btn-warning" href="/journals/<%= journal._id %>/comments/<%= comment._id %>/edit">Edit Comment</a>
+<form action="/journals/<%= journal._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+    <button class="btn btn-danger">Delete Comment</button>
+</form>
 <% }); %>
 
 <a href="/journals">Back</a>
