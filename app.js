@@ -5,6 +5,9 @@ const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const Journal = require("./models/journal");
 const Comment = require("./models/comment");
+const seedDB = require("./seeds");
+
+seedDB();
 
 mongoose.connect("mongodb://localhost:27017/trek_trak", {
     useNewUrlParser: true,
@@ -61,7 +64,7 @@ app.get("/journals/new", function (req, res) {
 
 // JOURNAL - SHOW ROUTE
 app.get("/journals/:id", function (req, res) {
-    Journal.findById(req.params.id, function (err, foundJournal) {
+    Journal.findById(req.params.id).populate("comments").exec(function (err, foundJournal) {
         if (err) {
             console.log(err);
         } else {
