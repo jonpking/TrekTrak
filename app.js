@@ -115,6 +115,15 @@ app.delete("/journals/:id", function (req, res) {
 // =====================
 
 // COMMENT - NEW ROUTE
+app.get("/journals/:id/comments/new", function (req, res) {
+    Journal.findById(req.params.id, function (err, journal) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.render("./comments/new", { journal: journal });
+        }
+    });
+});
 
 // COMMENT - CREATE ROUTE
 
