@@ -164,7 +164,15 @@ app.put("/journals/:id/comments/:comment_id", function (req, res) {
 });
 
 // COMMENT - DELETE/DESTROY ROUTE
-
+app.delete("/journals/:id/comments/:comment_id", function (req, res) {
+    Comment.findByIdAndDelete(req.params.comment_id, function (err) {
+        if (err) {
+            res.redirect("/journals/" + req.params.id);
+        } else {
+            res.redirect("/journals/" + req.params.id);
+        }
+    });
+});
 
 
 app.listen(3000, function () {
