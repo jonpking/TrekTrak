@@ -6,6 +6,12 @@
 
 <p><%= journal.description %></p>
 
+<% journal.comments.forEach(function(comment){ %>
+<p>
+    <strong><%= comment.author %></strong> - <%= comment.text %>
+</p>
+<% }); %>
+
 <a href="/journals">Back</a>
 
 <%- include ("../partials/footer") %>
