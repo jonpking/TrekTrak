@@ -26,12 +26,16 @@ app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 
-// ROOT ROUTE
+// =====================
+// JOURNAL ROUTES
+// =====================
+
+// JOURNAL - ROOT ROUTE
 app.get("/", function (req, res) {
     res.render("landing");
 });
 
-// INDEX ROUTE
+// JOURNAL - INDEX ROUTE
 app.get("/journals", function (req, res) {
     Journal.find({}, function (err, allJournals) {
         if (err) {
@@ -42,7 +46,7 @@ app.get("/journals", function (req, res) {
     });
 });
 
-// CREATE ROUTE
+// JOURNAL - CREATE ROUTE
 app.post("/journals", function (req, res) {
     const name = req.body.name;
     const image = req.body.image;
@@ -57,12 +61,12 @@ app.post("/journals", function (req, res) {
     });
 });
 
-// NEW ROUTE
+// JOURNAL - NEW ROUTE
 app.get("/journals/new", function (req, res) {
     res.render("new");
 });
 
-// SHOW ROUTE
+// JOURNAL - SHOW ROUTE
 app.get("/journals/:id", function (req, res) {
     Journal.findById(req.params.id, function (err, foundJournal) {
         if (err) {
@@ -73,7 +77,7 @@ app.get("/journals/:id", function (req, res) {
     });
 });
 
-// EDIT ROUTE
+// JOURNAL - EDIT ROUTE
 app.get("/journals/:id/edit", function (req, res) {
     Journal.findById(req.params.id, function (err, foundJournal) {
         if (err) {
@@ -84,7 +88,7 @@ app.get("/journals/:id/edit", function (req, res) {
     });
 });
 
-// UPDATE ROUTE
+// JOURNAL - UPDATE ROUTE
 app.put("/journals/:id", function (req, res) {
     Journal.findByIdAndUpdate(req.params.id, req.body.journal, function (err, updatedJournal) {
         if (err) {
@@ -95,7 +99,7 @@ app.put("/journals/:id", function (req, res) {
     });
 });
 
-// DELETE/DESTROY ROUTE
+// JOURNAL - DELETE/DESTROY ROUTE
 app.delete("/journals/:id", function (req, res) {
     Journal.findByIdAndDelete(req.params.id, function (err) {
         if (err) {
@@ -105,6 +109,22 @@ app.delete("/journals/:id", function (req, res) {
         }
     });
 });
+
+// =====================
+// COMMENT ROUTES
+// =====================
+
+// COMMENT - NEW ROUTE
+
+// COMMENT - CREATE ROUTE
+
+// COMMENT - EDIT ROUTE
+
+// COMMENT - UPDATE ROUTE
+
+// COMMENT - DELETE/DESTROY ROUTE
+
+
 
 app.listen(3000, function () {
     console.log("TrekTrak server has started");
