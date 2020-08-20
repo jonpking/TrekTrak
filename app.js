@@ -41,7 +41,7 @@ app.get("/journals", function (req, res) {
         if (err) {
             console.log(err);
         } else {
-            res.render("index", { journals: allJournals });
+            res.render("journals/index", { journals: allJournals });
         }
     });
 });
@@ -63,7 +63,7 @@ app.post("/journals", function (req, res) {
 
 // JOURNAL - NEW ROUTE
 app.get("/journals/new", function (req, res) {
-    res.render("new");
+    res.render("journals/new");
 });
 
 // JOURNAL - SHOW ROUTE
@@ -72,7 +72,7 @@ app.get("/journals/:id", function (req, res) {
         if (err) {
             console.log(err);
         } else {
-            res.render("show", { journal: foundJournal });
+            res.render("journals/show", { journal: foundJournal });
         }
     });
 });
@@ -83,7 +83,7 @@ app.get("/journals/:id/edit", function (req, res) {
         if (err) {
             console.log(err);
         } else {
-            res.render("edit", { journal: foundJournal });
+            res.render("journals/edit", { journal: foundJournal });
         }
     });
 });
