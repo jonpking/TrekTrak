@@ -21,6 +21,19 @@ const journalSchema = new mongoose.Schema({
 
 const Journal = mongoose.model("Journal", journalSchema);
 
+const commentSchema = new mongoose.Schema({
+    author: {
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        },
+        username: String
+    },
+    text: String
+});
+
+const Comment = mongoose.model("Comment", commentSchema);
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
@@ -126,6 +139,22 @@ app.get("/journals/:id/comments/new", function (req, res) {
 });
 
 // COMMENT - CREATE ROUTE
+app.post("journals/:id/comments/", function (req, res) {
+    journal.findById(req.params.id, function (err, journal) {
+        if (err) {
+            console.log(err);
+            res.redirect("/journals");
+        } else {
+            Comment.create(req.body.comment, function (err, comment) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    // create comment
+                }
+            })
+        }
+    });
+});
 
 // COMMENT - EDIT ROUTE
 
