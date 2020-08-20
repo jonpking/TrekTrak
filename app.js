@@ -143,16 +143,25 @@ app.post("/journals/:id/comments", function (req, res) {
 
 // COMMENT - EDIT ROUTE
 app.get("/journals/:id/comments/:comment_id/edit", function (req, res) {
-    Journal.findById(req.params.id, function (err, foundJournal) {
+    Comment.findById(req.params.comment_id, function (err, foundComment) {
         if (err) {
-            console.log(err);
+            res.redirect("back");
         } else {
-            res.render("comments/edit", { journal: foundJournal });
+            res.render("comments/edit", { journal_id: req.params.id, comment: foundComment });
         }
     });
 });
 
 // COMMENT - UPDATE ROUTE
+app.put("/journals/:id/comments/:comment_id", function (req, res) {
+    Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function (err, updatedComment) {
+        if (err) {
+            res.redirect("back");
+        } else {
+            res.redirect("/journals/" + req.params.id);
+        }
+    });
+});
 
 // COMMENT - DELETE/DESTROY ROUTE
 
