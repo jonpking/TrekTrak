@@ -142,6 +142,15 @@ app.post("/journals/:id/comments", function (req, res) {
 });
 
 // COMMENT - EDIT ROUTE
+app.get("/journals/:id/comments/:comment_id/edit", function (req, res) {
+    Journal.findById(req.params.id, function (err, foundJournal) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.render("comments/edit", { journal: foundJournal });
+        }
+    });
+});
 
 // COMMENT - UPDATE ROUTE
 
