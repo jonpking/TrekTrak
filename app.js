@@ -5,9 +5,11 @@ const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const Journal = require("./models/journal");
 const Comment = require("./models/comment");
-const seedDB = require("./seeds");
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const session = require("express-session");
 
-seedDB();
+const seedDB = require("./seeds");
 
 mongoose.connect("mongodb://localhost:27017/trek_trak", {
     useNewUrlParser: true,
@@ -21,6 +23,41 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
+
+// PASSPORT CONFIG
+app.use(session({ secret: "purple bacon" }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new LocalStrategy(
+    function (username, password, done) {
+        User.findOne({ username: username }, function (err, user) {
+            if (err) {
+                return done(err);
+            }
+            if (!user) {
+                return done(null, false, { message: "Incorrect username." });
+            }
+            if (!user.verifyPassword(password)) {
+                return done(null, false, { message: "Incorrect password." });
+            }
+            return done(null, user);
+        });
+    }
+));
+
+passport.serializeUser(function (user, done) {
+    done(null, user.id);
+});
+
+passport.deserializeUser(function (id, done) {
+    User.findById(id, function (err, user) {
+        done(err, user);
+    });
+});
+
+// DATABASE SEEDING
+seedDB();
 
 // =====================
 // JOURNAL ROUTES
@@ -174,6 +211,19 @@ app.delete("/journals/:id/comments/:comment_id", function (req, res) {
     });
 });
 
+// =====================
+// PASSPORT ROUTES
+// =====================
+
+// LOGIN FORM
+
+// LOGIN LOGIC
+
+// REGISTER FORM
+
+// REGISTER LOGIC
+
+// LOGOUT
 
 app.listen(3000, function () {
     console.log("TrekTrak server has started");
