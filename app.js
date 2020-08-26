@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const Journal = require("./models/journal");
 const Comment = require("./models/comment");
+const User = require("./models/user");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const session = require("express-session");
@@ -25,36 +26,17 @@ app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 
 // PASSPORT CONFIG
-app.use(session({ secret: "purple bacon" }));
+app.use(session({
+    secret: "purple bacon",
+    resave: false,
+    saveUninitialized: true
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(new LocalStrategy(
-    function (username, password, done) {
-        User.findOne({ username: username }, function (err, user) {
-            if (err) {
-                return done(err);
-            }
-            if (!user) {
-                return done(null, false, { message: "Incorrect username." });
-            }
-            if (!user.verifyPassword(password)) {
-                return done(null, false, { message: "Incorrect password." });
-            }
-            return done(null, user);
-        });
-    }
-));
-
-passport.serializeUser(function (user, done) {
-    done(null, user.id);
-});
-
-passport.deserializeUser(function (id, done) {
-    User.findById(id, function (err, user) {
-        done(err, user);
-    });
-});
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 // DATABASE SEEDING
 seedDB();
@@ -216,14 +198,42 @@ app.delete("/journals/:id/comments/:comment_id", function (req, res) {
 // =====================
 
 // LOGIN FORM
+app.get("/login", function (req, res) {
+    res.render("login");
+});
 
 // LOGIN LOGIC
+app.post('/login',
+    passport.authenticate('local', {
+        successRedirect: '/journals',
+        failureRedirect: '/login',
+        failureFlash: false
+    })
+);
 
 // REGISTER FORM
+app.get("/register", function (req, res) {
+    res.render("register");
+});
 
 // REGISTER LOGIC
+app.post("/register", function (req, res) {
+    const newUser = new User({ username: req.body.username });
+    User.register(newUser, req.body.password, function (err, user) {
+        if (err) {
+            return res.redirect("/register");
+        }
+        passport.authenticate("local")(req, res, function () {
+            res.redirect("/journals");
+        });
+    });
+});
 
 // LOGOUT
+app.get('/logout', function (req, res) {
+    req.logout();
+    res.redirect('/journals');
+});
 
 app.listen(3000, function () {
     console.log("TrekTrak server has started");
