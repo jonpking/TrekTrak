@@ -61,13 +61,13 @@ app.get("/journals", function (req, res) {
         if (err) {
             console.log(err);
         } else {
-            res.render("journals/index", { journals: allJournals});
+            res.render("journals/index", { journals: allJournals });
         }
     });
 });
 
 // JOURNAL - CREATE ROUTE
-app.post("/journals", function (req, res) {
+app.post("/journals", isLoggedIn, function (req, res) {
     const name = req.body.name;
     const image = req.body.image;
     const desc = req.body.description;
@@ -82,7 +82,7 @@ app.post("/journals", function (req, res) {
 });
 
 // JOURNAL - NEW ROUTE
-app.get("/journals/new", function (req, res) {
+app.get("/journals/new", isLoggedIn, function (req, res) {
     res.render("journals/new");
 });
 
@@ -98,7 +98,7 @@ app.get("/journals/:id", function (req, res) {
 });
 
 // JOURNAL - EDIT ROUTE
-app.get("/journals/:id/edit", function (req, res) {
+app.get("/journals/:id/edit", isLoggedIn, function (req, res) {
     Journal.findById(req.params.id, function (err, foundJournal) {
         if (err) {
             console.log(err);
@@ -109,7 +109,7 @@ app.get("/journals/:id/edit", function (req, res) {
 });
 
 // JOURNAL - UPDATE ROUTE
-app.put("/journals/:id", function (req, res) {
+app.put("/journals/:id", isLoggedIn, function (req, res) {
     Journal.findByIdAndUpdate(req.params.id, req.body.journal, function (err, updatedJournal) {
         if (err) {
             res.redirect("/journals");
@@ -120,7 +120,7 @@ app.put("/journals/:id", function (req, res) {
 });
 
 // JOURNAL - DELETE/DESTROY ROUTE
-app.delete("/journals/:id", function (req, res) {
+app.delete("/journals/:id", isLoggedIn, function (req, res) {
     Journal.findByIdAndDelete(req.params.id, function (err) {
         if (err) {
             res.redirect("/journals");
@@ -135,7 +135,7 @@ app.delete("/journals/:id", function (req, res) {
 // =====================
 
 // COMMENT - NEW ROUTE
-app.get("/journals/:id/comments/new", function (req, res) {
+app.get("/journals/:id/comments/new", isLoggedIn, function (req, res) {
     Journal.findById(req.params.id, function (err, journal) {
         if (err) {
             console.log(err);
@@ -146,7 +146,7 @@ app.get("/journals/:id/comments/new", function (req, res) {
 });
 
 // COMMENT - CREATE ROUTE
-app.post("/journals/:id/comments", function (req, res) {
+app.post("/journals/:id/comments", isLoggedIn, function (req, res) {
     Journal.findById(req.params.id, function (err, journal) {
         if (err) {
             console.log(err);
@@ -166,7 +166,7 @@ app.post("/journals/:id/comments", function (req, res) {
 });
 
 // COMMENT - EDIT ROUTE
-app.get("/journals/:id/comments/:comment_id/edit", function (req, res) {
+app.get("/journals/:id/comments/:comment_id/edit", isLoggedIn, function (req, res) {
     Comment.findById(req.params.comment_id, function (err, foundComment) {
         if (err) {
             res.redirect("back");
@@ -177,7 +177,7 @@ app.get("/journals/:id/comments/:comment_id/edit", function (req, res) {
 });
 
 // COMMENT - UPDATE ROUTE
-app.put("/journals/:id/comments/:comment_id", function (req, res) {
+app.put("/journals/:id/comments/:comment_id", isLoggedIn, function (req, res) {
     Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function (err, updatedComment) {
         if (err) {
             res.redirect("back");
@@ -188,7 +188,7 @@ app.put("/journals/:id/comments/:comment_id", function (req, res) {
 });
 
 // COMMENT - DELETE/DESTROY ROUTE
-app.delete("/journals/:id/comments/:comment_id", function (req, res) {
+app.delete("/journals/:id/comments/:comment_id", isLoggedIn, function (req, res) {
     Comment.findByIdAndDelete(req.params.comment_id, function (err) {
         if (err) {
             res.redirect("/journals/" + req.params.id);
@@ -239,6 +239,17 @@ app.get('/logout', function (req, res) {
     req.logout();
     res.redirect('/journals');
 });
+
+// =====================
+// MIDDLEWARE
+// =====================
+
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect("/login");
+}
 
 app.listen(3000, function () {
     console.log("TrekTrak server has started");
