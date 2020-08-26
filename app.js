@@ -38,6 +38,11 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+app.use(function (req, res, next) {
+    res.locals.currentUser = req.user;
+    next();
+});
+
 // DATABASE SEEDING
 seedDB();
 
@@ -56,7 +61,7 @@ app.get("/journals", function (req, res) {
         if (err) {
             console.log(err);
         } else {
-            res.render("journals/index", { journals: allJournals });
+            res.render("journals/index", { journals: allJournals});
         }
     });
 });
