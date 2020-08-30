@@ -3,7 +3,8 @@ const router = express.Router();
 
 const middleware = require("../middleware");
 const Journal = require("../models/journal");
-const user = require("../models/user");
+const Comment = require("../models/comment");
+const User = require("../models/user");
 
 // JOURNAL - INDEX ROUTE
 router.get("/", function (req, res) {
@@ -71,11 +72,16 @@ router.put("/:id", middleware.isLoggedIn, function (req, res) {
 
 // JOURNAL - DELETE/DESTROY ROUTE
 router.delete("/:id", middleware.isLoggedIn, function (req, res) {
-    Journal.findByIdAndDelete(req.params.id, function (err) {
+    Journal.findByIdAndDelete(req.params.id, function (err, removedJournal) {
         if (err) {
             res.redirect("/journals");
         } else {
-            res.redirect("/journals");
+            Comment.deleteMany({ _id: { $in: removedJournal.comments } }, function (err, removedComments) {
+                if (err) {
+                    console.log(err);
+                }
+                res.redirect("/journals");
+            });
         }
     });
 });
