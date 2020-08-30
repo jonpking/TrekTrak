@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
+const middleware = require("../middleware");
 const Journal = require("../models/journal");
 const user = require("../models/user");
 
@@ -16,7 +17,7 @@ router.get("/", function (req, res) {
 });
 
 // JOURNAL - CREATE ROUTE
-router.post("/", isLoggedIn, function (req, res) {
+router.post("/", middleware.isLoggedIn, function (req, res) {
     const name = req.body.name;
     const image = req.body.image;
     const desc = req.body.description;
@@ -31,7 +32,7 @@ router.post("/", isLoggedIn, function (req, res) {
 });
 
 // JOURNAL - NEW ROUTE
-router.get("/new", isLoggedIn, function (req, res) {
+router.get("/new", middleware.isLoggedIn, function (req, res) {
     res.render("journals/new");
 });
 
@@ -47,7 +48,7 @@ router.get("/:id", function (req, res) {
 });
 
 // JOURNAL - EDIT ROUTE
-router.get("/:id/edit", isLoggedIn, function (req, res) {
+router.get("/:id/edit", middleware.isLoggedIn, function (req, res) {
     Journal.findById(req.params.id, function (err, foundJournal) {
         if (err) {
             console.log(err);
@@ -58,7 +59,7 @@ router.get("/:id/edit", isLoggedIn, function (req, res) {
 });
 
 // JOURNAL - UPDATE ROUTE
-router.put("/:id", isLoggedIn, function (req, res) {
+router.put("/:id", middleware.isLoggedIn, function (req, res) {
     Journal.findByIdAndUpdate(req.params.id, req.body.journal, function (err, updatedJournal) {
         if (err) {
             res.redirect("/journals");
@@ -69,7 +70,7 @@ router.put("/:id", isLoggedIn, function (req, res) {
 });
 
 // JOURNAL - DELETE/DESTROY ROUTE
-router.delete("/:id", isLoggedIn, function (req, res) {
+router.delete("/:id", middleware.isLoggedIn, function (req, res) {
     Journal.findByIdAndDelete(req.params.id, function (err) {
         if (err) {
             res.redirect("/journals");
@@ -78,12 +79,5 @@ router.delete("/:id", isLoggedIn, function (req, res) {
         }
     });
 });
-
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect("/login");
-}
 
 module.exports = router;

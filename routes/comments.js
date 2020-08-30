@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });
 
+const middleware = require("../middleware");
 const Journal = require("../models/journal");
 const Comment = require("../models/comment");
 
 // COMMENT - NEW ROUTE
-router.get("/new", isLoggedIn, function (req, res) {
+router.get("/new", middleware.isLoggedIn, function (req, res) {
     Journal.findById(req.params.id, function (err, journal) {
         if (err) {
             console.log(err);
@@ -16,7 +17,7 @@ router.get("/new", isLoggedIn, function (req, res) {
 });
 
 // COMMENT - CREATE ROUTE
-router.post("/", isLoggedIn, function (req, res) {
+router.post("/", middleware.isLoggedIn, function (req, res) {
     Journal.findById(req.params.id, function (err, journal) {
         if (err) {
             console.log(err);
@@ -36,7 +37,7 @@ router.post("/", isLoggedIn, function (req, res) {
 });
 
 // COMMENT - EDIT ROUTE
-router.get("/:comment_id/edit", isLoggedIn, function (req, res) {
+router.get("/:comment_id/edit", middleware.isLoggedIn, function (req, res) {
     Comment.findById(req.params.comment_id, function (err, foundComment) {
         if (err) {
             res.redirect("back");
@@ -47,7 +48,7 @@ router.get("/:comment_id/edit", isLoggedIn, function (req, res) {
 });
 
 // COMMENT - UPDATE ROUTE
-router.put("/:comment_id", isLoggedIn, function (req, res) {
+router.put("/:comment_id", middleware.isLoggedIn, function (req, res) {
     Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function (err, updatedComment) {
         if (err) {
             res.redirect("back");
@@ -58,7 +59,7 @@ router.put("/:comment_id", isLoggedIn, function (req, res) {
 });
 
 // COMMENT - DELETE/DESTROY ROUTE
-router.delete("/:comment_id", isLoggedIn, function (req, res) {
+router.delete("/:comment_id", middleware.isLoggedIn, function (req, res) {
     Comment.findByIdAndDelete(req.params.comment_id, function (err) {
         if (err) {
             res.redirect("/journals/" + req.params.id);
@@ -67,12 +68,5 @@ router.delete("/:comment_id", isLoggedIn, function (req, res) {
         }
     });
 });
-
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect("/login");
-}
 
 module.exports = router;
