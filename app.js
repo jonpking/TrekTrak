@@ -3,12 +3,17 @@ const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
-const Journal = require("./models/journal");
-const Comment = require("./models/comment");
-const User = require("./models/user");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const session = require("express-session");
+
+const Journal = require("./models/journal");
+const Comment = require("./models/comment");
+const User = require("./models/user");
+
+const commentRoutes = require("./routes/comments");
+const journalRoutes = require("./routes/journals");
+const indexRoutes = require("./routes/index");
 
 const seedDB = require("./seeds");
 
@@ -46,210 +51,9 @@ app.use(function (req, res, next) {
 // DATABASE SEEDING
 seedDB();
 
-// =====================
-// JOURNAL ROUTES
-// =====================
-
-// JOURNAL - ROOT ROUTE
-app.get("/", function (req, res) {
-    res.render("landing");
-});
-
-// JOURNAL - INDEX ROUTE
-app.get("/journals", function (req, res) {
-    Journal.find({}, function (err, allJournals) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.render("journals/index", { journals: allJournals });
-        }
-    });
-});
-
-// JOURNAL - CREATE ROUTE
-app.post("/journals", isLoggedIn, function (req, res) {
-    const name = req.body.name;
-    const image = req.body.image;
-    const desc = req.body.description;
-    const newJournal = { name: name, image: image, description: desc };
-    Journal.create(newJournal, function (err, createdJournal) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.redirect("/journals");
-        }
-    });
-});
-
-// JOURNAL - NEW ROUTE
-app.get("/journals/new", isLoggedIn, function (req, res) {
-    res.render("journals/new");
-});
-
-// JOURNAL - SHOW ROUTE
-app.get("/journals/:id", function (req, res) {
-    Journal.findById(req.params.id).populate("comments").exec(function (err, foundJournal) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.render("journals/show", { journal: foundJournal });
-        }
-    });
-});
-
-// JOURNAL - EDIT ROUTE
-app.get("/journals/:id/edit", isLoggedIn, function (req, res) {
-    Journal.findById(req.params.id, function (err, foundJournal) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.render("journals/edit", { journal: foundJournal });
-        }
-    });
-});
-
-// JOURNAL - UPDATE ROUTE
-app.put("/journals/:id", isLoggedIn, function (req, res) {
-    Journal.findByIdAndUpdate(req.params.id, req.body.journal, function (err, updatedJournal) {
-        if (err) {
-            res.redirect("/journals");
-        } else {
-            res.redirect("/journals/" + req.params.id);
-        }
-    });
-});
-
-// JOURNAL - DELETE/DESTROY ROUTE
-app.delete("/journals/:id", isLoggedIn, function (req, res) {
-    Journal.findByIdAndDelete(req.params.id, function (err) {
-        if (err) {
-            res.redirect("/journals");
-        } else {
-            res.redirect("/journals");
-        }
-    });
-});
-
-// =====================
-// COMMENT ROUTES
-// =====================
-
-// COMMENT - NEW ROUTE
-app.get("/journals/:id/comments/new", isLoggedIn, function (req, res) {
-    Journal.findById(req.params.id, function (err, journal) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.render("comments/new", { journal: journal });
-        }
-    });
-});
-
-// COMMENT - CREATE ROUTE
-app.post("/journals/:id/comments", isLoggedIn, function (req, res) {
-    Journal.findById(req.params.id, function (err, journal) {
-        if (err) {
-            console.log(err);
-            res.redirect("/journals");
-        } else {
-            Comment.create(req.body.comment, function (err, comment) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    journal.comments.push(comment);
-                    journal.save();
-                    res.redirect("/journals/" + journal._id);
-                }
-            })
-        }
-    });
-});
-
-// COMMENT - EDIT ROUTE
-app.get("/journals/:id/comments/:comment_id/edit", isLoggedIn, function (req, res) {
-    Comment.findById(req.params.comment_id, function (err, foundComment) {
-        if (err) {
-            res.redirect("back");
-        } else {
-            res.render("comments/edit", { journal_id: req.params.id, comment: foundComment });
-        }
-    });
-});
-
-// COMMENT - UPDATE ROUTE
-app.put("/journals/:id/comments/:comment_id", isLoggedIn, function (req, res) {
-    Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function (err, updatedComment) {
-        if (err) {
-            res.redirect("back");
-        } else {
-            res.redirect("/journals/" + req.params.id);
-        }
-    });
-});
-
-// COMMENT - DELETE/DESTROY ROUTE
-app.delete("/journals/:id/comments/:comment_id", isLoggedIn, function (req, res) {
-    Comment.findByIdAndDelete(req.params.comment_id, function (err) {
-        if (err) {
-            res.redirect("/journals/" + req.params.id);
-        } else {
-            res.redirect("/journals/" + req.params.id);
-        }
-    });
-});
-
-// =====================
-// PASSPORT ROUTES
-// =====================
-
-// LOGIN FORM
-app.get("/login", function (req, res) {
-    res.render("login");
-});
-
-// LOGIN LOGIC
-app.post('/login',
-    passport.authenticate('local', {
-        successRedirect: '/journals',
-        failureRedirect: '/login',
-        failureFlash: false
-    })
-);
-
-// REGISTER FORM
-app.get("/register", function (req, res) {
-    res.render("register");
-});
-
-// REGISTER LOGIC
-app.post("/register", function (req, res) {
-    const newUser = new User({ username: req.body.username });
-    User.register(newUser, req.body.password, function (err, user) {
-        if (err) {
-            return res.redirect("/register");
-        }
-        passport.authenticate("local")(req, res, function () {
-            res.redirect("/journals");
-        });
-    });
-});
-
-// LOGOUT
-app.get('/logout', function (req, res) {
-    req.logout();
-    res.redirect('/journals');
-});
-
-// =====================
-// MIDDLEWARE
-// =====================
-
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect("/login");
-}
+app.use("/", indexRoutes);
+app.use("/journals", journalRoutes);
+app.use("/journals/:id/comments", commentRoutes);
 
 app.listen(3000, function () {
     console.log("TrekTrak server has started");
