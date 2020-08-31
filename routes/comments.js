@@ -27,6 +27,9 @@ router.post("/", middleware.isLoggedIn, function (req, res) {
                 if (err) {
                     console.log(err);
                 } else {
+                    comment.author.id = req.user._id;
+                    comment.author.username = req.user.username;
+                    comment.save();
                     journal.comments.push(comment);
                     journal.save();
                     res.redirect("/journals/" + journal._id);
