@@ -22,7 +22,11 @@ router.post("/", middleware.isLoggedIn, function (req, res) {
     const name = req.body.name;
     const image = req.body.image;
     const desc = req.body.description;
-    const newJournal = { name: name, image: image, description: desc };
+    const author = {
+        id: req.user._id,
+        username: req.user.username
+    }
+    const newJournal = { name: name, image: image, description: desc, author: author };
     Journal.create(newJournal, function (err, createdJournal) {
         if (err) {
             console.log(err);
