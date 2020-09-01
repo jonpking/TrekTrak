@@ -4,7 +4,8 @@ const router = express.Router();
 const middleware = require("../middleware");
 const Journal = require("../models/journal");
 const Comment = require("../models/comment");
-const User = require("../models/user");
+// const User = require("../models/user");
+// const journal = require("../models/journal");
 
 // JOURNAL - INDEX ROUTE
 router.get("/", function (req, res) {
@@ -53,18 +54,14 @@ router.get("/:id", function (req, res) {
 });
 
 // JOURNAL - EDIT ROUTE
-router.get("/:id/edit", middleware.isLoggedIn, function (req, res) {
+router.get("/:id/edit", middleware.checkJournalOwnership, function (req, res) {
     Journal.findById(req.params.id, function (err, foundJournal) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.render("journals/edit", { journal: foundJournal });
-        }
+        res.render("journals/edit", { journal: foundJournal });
     });
 });
 
 // JOURNAL - UPDATE ROUTE
-router.put("/:id", middleware.isLoggedIn, function (req, res) {
+router.put("/:id", middleware.checkJournalOwnership, function (req, res) {
     Journal.findByIdAndUpdate(req.params.id, req.body.journal, function (err, updatedJournal) {
         if (err) {
             res.redirect("/journals");
@@ -75,7 +72,7 @@ router.put("/:id", middleware.isLoggedIn, function (req, res) {
 });
 
 // JOURNAL - DELETE/DESTROY ROUTE
-router.delete("/:id", middleware.isLoggedIn, function (req, res) {
+router.delete("/:id", middleware.checkJournalOwnership, function (req, res) {
     Journal.findByIdAndDelete(req.params.id, function (err, removedJournal) {
         if (err) {
             res.redirect("/journals");
