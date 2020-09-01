@@ -40,7 +40,7 @@ router.post("/", middleware.isLoggedIn, function (req, res) {
 });
 
 // COMMENT - EDIT ROUTE
-router.get("/:comment_id/edit", middleware.isLoggedIn, function (req, res) {
+router.get("/:comment_id/edit", middleware.checkCommentOwnership, function (req, res) {
     Comment.findById(req.params.comment_id, function (err, foundComment) {
         if (err) {
             res.redirect("back");
@@ -51,7 +51,7 @@ router.get("/:comment_id/edit", middleware.isLoggedIn, function (req, res) {
 });
 
 // COMMENT - UPDATE ROUTE
-router.put("/:comment_id", middleware.isLoggedIn, function (req, res) {
+router.put("/:comment_id", middleware.checkCommentOwnership, function (req, res) {
     Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function (err, updatedComment) {
         if (err) {
             res.redirect("back");
@@ -62,7 +62,7 @@ router.put("/:comment_id", middleware.isLoggedIn, function (req, res) {
 });
 
 // COMMENT - DELETE/DESTROY ROUTE
-router.delete("/:comment_id", middleware.isLoggedIn, function (req, res) {
+router.delete("/:comment_id", middleware.checkCommentOwnership, function (req, res) {
     Comment.findByIdAndDelete(req.params.comment_id, function (err) {
         if (err) {
             res.redirect("/journals/" + req.params.id);
