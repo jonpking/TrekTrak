@@ -49,7 +49,7 @@ app.use(function (req, res, next) {
 });
 
 // DATABASE SEEDING
-seedDB();
+// seedDB();
 
 app.use("/", indexRoutes);
 app.use("/journals", journalRoutes);
