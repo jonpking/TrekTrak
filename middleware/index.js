@@ -14,7 +14,7 @@ middlewareObj.isLoggedIn = function (req, res, next) {
 middlewareObj.checkJournalOwnership = function (req, res, next) {
     if (req.isAuthenticated()) {
         Journal.findById(req.params.id, function (err, foundJournal) {
-            if (err) {
+            if (err || !foundJournal) {
                 req.flash("error", "Journal not found");
                 res.redirect("back");
             } else {
@@ -35,7 +35,7 @@ middlewareObj.checkJournalOwnership = function (req, res, next) {
 middlewareObj.checkCommentOwnership = function (req, res, next) {
     if (req.isAuthenticated()) {
         Comment.findById(req.params.comment_id, function (err, foundComment) {
-            if (err) {
+            if (err || !foundComment) {
                 req.flash("error", "Comment not found");
                 res.redirect("back");
             } else {

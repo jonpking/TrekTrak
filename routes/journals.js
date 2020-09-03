@@ -45,8 +45,10 @@ router.get("/new", middleware.isLoggedIn, function (req, res) {
 // JOURNAL - SHOW ROUTE
 router.get("/:id", function (req, res) {
     Journal.findById(req.params.id).populate("comments").exec(function (err, foundJournal) {
-        if (err) {
+        if (err || !foundJournal) {
+            req.flash("error", "Journal not found");
             console.log(err);
+            res.redirect("back");
         } else {
             res.render("journals/show", { journal: foundJournal });
         }

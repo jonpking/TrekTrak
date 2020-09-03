@@ -8,8 +8,10 @@ const Comment = require("../models/comment");
 // COMMENT - NEW ROUTE
 router.get("/new", middleware.isLoggedIn, function (req, res) {
     Journal.findById(req.params.id, function (err, journal) {
-        if (err) {
+        if (err || !journal) {
+            req.flash("error", "Journal not found");
             console.log(err);
+            res.redirect("back");
         } else {
             res.render("comments/new", { journal: journal });
         }
@@ -43,12 +45,18 @@ router.post("/", middleware.isLoggedIn, function (req, res) {
 
 // COMMENT - EDIT ROUTE
 router.get("/:comment_id/edit", middleware.checkCommentOwnership, function (req, res) {
-    Comment.findById(req.params.comment_id, function (err, foundComment) {
-        if (err) {
-            res.redirect("back");
-        } else {
-            res.render("comments/edit", { journal_id: req.params.id, comment: foundComment });
+    Journal.findById(req.params.id, function (err, foundJournal) {
+        if (err || !foundJournal) {
+            req.flash("error", "Journal not found");
+            return res.redirect("back");
         }
+        Comment.findById(req.params.comment_id, function (err, foundComment) {
+            if (err) {
+                res.redirect("back");
+            } else {
+                res.render("comments/edit", { journal_id: req.params.id, comment: foundComment });
+            }
+        });
     });
 });
 
