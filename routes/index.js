@@ -37,9 +37,11 @@ router.post("/register", function (req, res) {
     const newUser = new User({ username: req.body.username });
     User.register(newUser, req.body.password, function (err, user) {
         if (err) {
+            req.flash("error", err.message);
             return res.redirect("/register");
         }
         passport.authenticate("local")(req, res, function () {
+            req.flash("success", "Welcome to TrekTrak " + user.username);
             res.redirect("/journals");
         });
     });
@@ -47,6 +49,7 @@ router.post("/register", function (req, res) {
 
 // LOGOUT
 router.get('/logout', function (req, res) {
+    req.flash("success", "Logged you out");
     req.logout();
     res.redirect('/journals');
 });
