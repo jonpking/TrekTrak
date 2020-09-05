@@ -4,6 +4,7 @@ const router = express.Router();
 const middleware = require("../middleware");
 const Journal = require("../models/journal");
 const Comment = require("../models/comment");
+const { default: validator } = require("validator");
 // const User = require("../models/user");
 // const journal = require("../models/journal");
 
@@ -26,6 +27,25 @@ router.post("/", middleware.isLoggedIn, function (req, res) {
     const author = {
         id: req.user._id,
         username: req.user.username
+    }
+    // JOURNAL NAME VALIDATION
+    if (!validator.isLength(req.body.name, { min: 1, max: 50 })) {
+        req.flash("error", "Journal name must be between 1 and 50 characters");
+        return res.redirect("/journals/new");
+    }
+    if (!validator.isAlphanumeric(req.body.name)) {
+        req.flash("error", "Journal must be alphanumeric");
+        return res.redirect("/journals/new");
+    }
+    // JOURNAL IMAGE VALIDATION
+    if (!validator.isURL(req.body.image, { protocols: ["http", "https"], require_protocol: true, allow_underscores: true })) {
+        req.flash("error", "Journal image must be a valid URL");
+        return res.redirect("/journals/new");
+    }
+    // JOURNAL DESCRIPTION VALIDATION
+    if (!validator.isLength(req.body.description, { min: 1, max: 1000 })) {
+        req.flash("error", "Journal description must be between 1 and 1000 characters");
+        return res.redirect("/journals/new");
     }
     const newJournal = { name: name, image: image, description: desc, author: author };
     Journal.create(newJournal, function (err, createdJournal) {
