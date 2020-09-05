@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });
+const validator = require("validator");
 
 const middleware = require("../middleware");
 const Journal = require("../models/journal");
@@ -20,6 +21,11 @@ router.get("/new", middleware.isLoggedIn, function (req, res) {
 
 // COMMENT - CREATE ROUTE
 router.post("/", middleware.isLoggedIn, function (req, res) {
+    // COMMENT VALIDATION
+    if (!validator.isLength(req.body.comment.text, { min: 1, max: 300 })) {
+        req.flash("error", "Comment text must be between 1 and 300 characters");
+        return res.redirect("/journals/" + req.params.id + "/comments/new");
+    }
     Journal.findById(req.params.id, function (err, journal) {
         if (err) {
             console.log(err);
