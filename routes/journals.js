@@ -4,7 +4,7 @@ const router = express.Router();
 const middleware = require("../middleware");
 const Journal = require("../models/journal");
 const Comment = require("../models/comment");
-const { default: validator } = require("validator");
+const validator = require("validator");
 // const User = require("../models/user");
 // const journal = require("../models/journal");
 
