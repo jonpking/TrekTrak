@@ -85,7 +85,7 @@ router.get("/:id/edit", middleware.checkJournalOwnership, function (req, res) {
 // JOURNAL - UPDATE ROUTE
 router.put("/:id", middleware.checkJournalOwnership, function (req, res) {
     // JOURNAL NAME VALIDATION
-    if (!validator.isLength(req.body.journal.name, { min: 1, max: 5 })) {
+    if (!validator.isLength(req.body.journal.name, { min: 1, max: 50 })) {
         req.flash("error", "Journal name must be between 1 and 50 characters");
         return res.redirect("/journals/" + req.params.id + "/edit");
     }
@@ -99,7 +99,7 @@ router.put("/:id", middleware.checkJournalOwnership, function (req, res) {
         return res.redirect("/journals/" + req.params.id + "/edit");
     }
     // JOURNAL DESCRIPTION VALIDATION
-    if (!validator.isLength(req.body.journal.description, { min: 1, max: 5 })) {
+    if (!validator.isLength(req.body.journal.description, { min: 1, max: 1000 })) {
         req.flash("error", "Journal description must be between 1 and 1000 characters");
         return res.redirect("/journals/" + req.params.id + "/edit");
     }
