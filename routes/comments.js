@@ -68,6 +68,11 @@ router.get("/:comment_id/edit", middleware.checkCommentOwnership, function (req,
 
 // COMMENT - UPDATE ROUTE
 router.put("/:comment_id", middleware.checkCommentOwnership, function (req, res) {
+    // COMMENT VALIDATION
+    if (!validator.isLength(req.body.comment.text, { min: 1, max: 5 })) {
+        req.flash("error", "Comment text must be between 1 and 300 characters");
+        return res.redirect("/journals/" + req.params.id + "/comments/" + req.params.comment_id + "/edit");
+    }
     Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function (err, updatedComment) {
         if (err) {
             res.redirect("back");
