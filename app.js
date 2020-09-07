@@ -35,7 +35,7 @@ app.use(flash());
 
 // PASSPORT CONFIG
 app.use(session({
-    secret: "purple bacon",
+    secret: process.env.PASSPORT_SECRET,
     resave: false,
     saveUninitialized: true
 }));
