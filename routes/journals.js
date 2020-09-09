@@ -70,7 +70,7 @@ router.get("/:id", function (req, res) {
             console.log(err);
             res.redirect("back");
         } else {
-            res.render("journals/show", { journal: foundJournal, leaflet: process.env.LEAFLET_KEY });
+            res.render("journals/show", { journal: foundJournal });
         }
     });
 });
