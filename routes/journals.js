@@ -33,8 +33,8 @@ router.post("/", middleware.isLoggedIn, function (req, res) {
         req.flash("error", "Journal name must be between 1 and 50 characters");
         return res.redirect("/journals/new");
     }
-    if (!validator.isAlphanumeric(req.body.name)) {
-        req.flash("error", "Journal must be alphanumeric");
+    if (!validator.isAlphanumeric((validator.blacklist(req.body.name, ' ')))) {
+        req.flash("error", "Journal name must be alphanumeric");
         return res.redirect("/journals/new");
     }
     // JOURNAL IMAGE VALIDATION
@@ -90,7 +90,7 @@ router.put("/:id", middleware.checkJournalOwnership, function (req, res) {
         return res.redirect("/journals/" + req.params.id + "/edit");
     }
     if (!validator.isAlphanumeric(req.body.journal.name)) {
-        req.flash("error", "Journal must be alphanumeric");
+        req.flash("error", "Journal name must be alphanumeric");
         return res.redirect("/journals/" + req.params.id + "/edit");
     }
     // JOURNAL IMAGE VALIDATION
