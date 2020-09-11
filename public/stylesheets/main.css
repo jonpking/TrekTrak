@@ -1,5 +1,22 @@
+body {
+    font-family: 'Kreon', serif;
+}
+
 #mainNav {
     margin-bottom: 15px;
+    background-color: rgba(8, 185, 205, 0.5);
+    padding: 4px 12px;
+    font-family: 'Laila', serif;
+}
+
+.navbar-brand {
+    font-size: 2rem;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.nav-item {
+    font-size: 1.2rem;
 }
 
 .jumbotron {
@@ -34,7 +51,7 @@
 }
 
 .jumboBtn {
-    background-color: #1FA0A2;
+    background-color: rgba(8, 185, 205, 0.8);
     font-weight: bolder;
     width: 250px;
     color: #fff;
