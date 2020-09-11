@@ -6,6 +6,15 @@
     <em>Submitted by: <%= journal.author.username %></em>
 </p>
 
+<% if(currentUser && journal.author.id.equals(currentUser._id)){ %>
+<div id="journalEditDelBtns">
+    <a class="btn btn-sm btn-warning" href="/journals/<%= journal._id %>/edit">Edit Journal</a>
+    <form action="/journals/<%= journal._id %>?_method=DELETE" method="POST">
+        <button class="btn btn-sm btn-danger">Delete Journal</button>
+    </form>
+</div>
+<% } %>
+
 <img src="<%= journal.image %>" alt="">
 
 <p><%= journal.description %></p>

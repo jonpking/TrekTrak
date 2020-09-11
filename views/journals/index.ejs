@@ -6,25 +6,18 @@
             <h1>Welcome to TrekTrak!</h1>
             <p>Where has life taken you lately?</p>
             <p>
-                <a class="btn btn-primary btn-lg" href="/journals/new">Start new Journal</a>
+                <a class="btn btn-lg jumboBtn" href="/journals/new">Start new Journal</a>
             </p>
         </div>
     </header>
 
     <div class="row text-center">
         <% journals.forEach(function(journal){ %>
-        <div class="col-md-3 col-sm-6">
+        <div class="col-md-4 col-sm-6">
             <div class="img-thumbnail">
-                <img class="img-fluid" src="<%= journal.image %>" alt="">
+                <a href="/journals/<%= journal._id %>"><img class="img-fluid" src="<%= journal.image %>" alt=""></a>
+                <h4><%= journal.name %></h4>
                 <div class="caption">
-                    <h4><%= journal.name %></h4>
-                    <a class="btn btn-primary" href="/journals/<%= journal._id %>">Details</a>
-                    <% if(currentUser && journal.author.id.equals(currentUser._id)){ %>
-                    <a class="btn btn-warning" href="/journals/<%= journal._id %>/edit">Edit</a>
-                    <form class="" action="/journals/<%= journal._id %>?_method=DELETE" method="POST">
-                        <button class="btn btn-danger">Delete</button>
-                    </form>
-                    <% } %>
                 </div>
             </div>
         </div>

@@ -1,5 +1,18 @@
 .img-thumbnail {
     margin-bottom: 10px;
+    height: 325px;
+    width: 100%;
+}
+
+.img-fluid {
+    height: 250px;
+    width: 100%;
+    object-fit: cover;
+}
+
+#journalEditDelBtns form {
+    display: inline-block;
+    margin-bottom: 10px;
 }
 
 #mainNav {
@@ -11,20 +24,28 @@
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
+    padding: 3rem 1rem;
 }
 
 .jumbotron h1 {
-text-shadow:    0px 4px 3px rgba(0,0,0,0.4),
-                0px 8px 13px rgba(0,0,0,0.1),
-                0px 18px 23px rgba(0,0,0,0.1);
-color:          #4C4C4C;
-font-size:      3rem;
+    text-shadow:    0px 4px 3px rgba(0,0,0,0.4),
+                    0px 8px 13px rgba(0,0,0,0.1),
+                    0px 18px 23px rgba(0,0,0,0.1);
+    color:          #fff;
+    font-size:      3rem;
 }
 
 .jumbotron p {
-text-shadow:    0px 4px 3px rgba(0,0,0,0.4),
-                0px 8px 13px rgba(0,0,0,0.1),
-                0px 18px 23px rgba(0,0,0,0.1);
-color:          #4C4C4C;
-font-size:      1.5rem;
+    text-shadow:    0px 4px 3px rgba(0,0,0,0.4),
+                    0px 8px 13px rgba(0,0,0,0.1),
+                    0px 18px 23px rgba(0,0,0,0.1);
+    color:          #fff;
+    font-size:      1.5rem;
+}
+
+.jumboBtn {
+    background-color: #1FA0A2;
+    font-weight: bolder;
+    width: 250px;
+    color: #fff;
 }
