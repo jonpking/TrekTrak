@@ -13,7 +13,7 @@
 
     <div class="row text-center">
         <% journals.forEach(function(journal){ %>
-        <div class="col-md-4 col-sm-6">
+        <div class="col-md-4 col-sm-6 journalCard">
             <div class="img-thumbnail">
                 <a href="/journals/<%= journal._id %>"><img class="img-fluid" src="<%= journal.image %>" alt=""></a>
                 <h4><%= journal.name %></h4>
