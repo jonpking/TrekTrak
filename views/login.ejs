@@ -1,25 +1,21 @@
 <%- include ("partials/header") %>
 
 <div class="container">
-    <div class="row">
-        <div>
-            <h1>Login</h1>
-            <form action="/login" method="post">
-                <div>
-                    <label>Username:</label>
-                    <input type="text" name="username" />
-                </div>
-                <div>
-                    <label>Password:</label>
-                    <input type="password" name="password" />
-                </div>
-                <div>
-                    <input type="submit" value="Log In" />
-                </div>
-            </form>
-            <a href="/journals">Back</a>
+    <h1 class="text-center">Login</h1>
+    <form action="/login" method="post">
+        <div class="row form-group justify-content-center">
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username">
         </div>
-    </div>
+        <div class="row form-group justify-content-center">
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password">
+        </div>
+        <div class="row justify-content-center">
+            <input type="submit" value="Log In">
+        </div>
+    </form>
+    <a href="/journals">Back</a>
 </div>
 
 <%- include ("partials/footer") %>
