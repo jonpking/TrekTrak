@@ -4,9 +4,10 @@ body {
 
 #mainNav {
     margin-bottom: 15px;
-    background-color: rgba(8, 185, 205, 0.5);
+    background-color: rgb(115, 237, 251);
     padding: 4px 12px;
     font-family: 'Laila', serif;
+    font-weight: bold;
 }
 
 .navbar-brand {
@@ -17,6 +18,10 @@ body {
 
 .nav-item {
     font-size: 1.2rem;
+}
+
+.nav-item:hover {
+    color: #000;
 }
 
 .jumbotron {
@@ -68,6 +73,24 @@ body {
         0 22.3px 17.9px rgba(0, 0, 0, 0.072),
         0 41.8px 33.4px rgba(0, 0, 0, 0.086),
         0 100px 80px rgba(0, 0, 0, 0.12);
+}
+
+.img-thumbnail a:hover img {
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+    -webkit-transition: 0.3s ease-in-out;
+    transition: 0.3s ease-in-out;
+    -webkit-transform: scale(1.05);
+    transform: scale(1.05);
+}
+
+.img-thumbnail a img {
+    -webkit-filter: grayscale(0);
+    filter: grayscale(0);
+    -webkit-transition: 0.3s ease-in-out;
+    transition: 0.3s ease-in-out;
+    -webkit-transform: scale(1);
+    transform: scale(1);
 }
 
 .img-fluid {
