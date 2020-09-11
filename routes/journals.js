@@ -29,8 +29,8 @@ router.post("/", middleware.isLoggedIn, function (req, res) {
         username: req.user.username
     }
     // JOURNAL NAME VALIDATION
-    if (!validator.isLength(req.body.name, { min: 1, max: 50 })) {
-        req.flash("error", "Journal name must be between 1 and 50 characters");
+    if (!validator.isLength(req.body.name, { min: 1, max: 30 })) {
+        req.flash("error", "Journal name must be between 1 and 30 characters");
         return res.redirect("/journals/new");
     }
     if (!validator.isAlphanumeric((validator.blacklist(req.body.name, ' ')))) {
@@ -85,11 +85,11 @@ router.get("/:id/edit", middleware.checkJournalOwnership, function (req, res) {
 // JOURNAL - UPDATE ROUTE
 router.put("/:id", middleware.checkJournalOwnership, function (req, res) {
     // JOURNAL NAME VALIDATION
-    if (!validator.isLength(req.body.journal.name, { min: 1, max: 50 })) {
-        req.flash("error", "Journal name must be between 1 and 50 characters");
+    if (!validator.isLength(req.body.journal.name, { min: 1, max: 30 })) {
+        req.flash("error", "Journal name must be between 1 and 30 characters");
         return res.redirect("/journals/" + req.params.id + "/edit");
     }
-    if (!validator.isAlphanumeric(req.body.journal.name)) {
+    if (!validator.isAlphanumeric((validator.blacklist(req.body.journal.name, ' ')))) {
         req.flash("error", "Journal name must be alphanumeric");
         return res.redirect("/journals/" + req.params.id + "/edit");
     }
