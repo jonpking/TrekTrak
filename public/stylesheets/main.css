@@ -76,24 +76,6 @@ body {
         0 100px 80px rgba(0, 0, 0, 0.12);
 }
 
-.img-thumbnail a:hover img {
-    -webkit-filter: grayscale(100%);
-    filter: grayscale(100%);
-    -webkit-transition: 0.3s ease-in-out;
-    transition: 0.3s ease-in-out;
-    -webkit-transform: scale(1.05);
-    transform: scale(1.05);
-}
-
-.img-thumbnail a img {
-    -webkit-filter: grayscale(0);
-    filter: grayscale(0);
-    -webkit-transition: 0.3s ease-in-out;
-    transition: 0.3s ease-in-out;
-    -webkit-transform: scale(1);
-    transform: scale(1);
-}
-
 .img-fluid {
     height: 250px;
     width: 100%;
@@ -102,6 +84,24 @@ body {
 
 .journalCard {
     margin-bottom: 15px;
+    -webkit-transition: 0.3s ease-in-out;
+    transition: 0.3s ease-in-out;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+}
+
+.journalCard:hover {
+    -webkit-transform: scale(1.05);
+    transform: scale(1.05);
+    -webkit-transition: 0.3s ease-in-out;
+    transition: 0.3s ease-in-out;
+}
+
+.journalCard:hover img {
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+    -webkit-transition: 0.3s ease-in-out;
+    transition: 0.3s ease-in-out;
 }
 
 #journalEditDelBtns form {
