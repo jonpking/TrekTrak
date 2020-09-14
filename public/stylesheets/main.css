@@ -24,6 +24,11 @@ body {
     color: #000;
 }
 
+.nav-link {
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+}
+
 .jumbotron {
     background-image: url("../images/jumbotron.jpg");
     background-position: center center;
