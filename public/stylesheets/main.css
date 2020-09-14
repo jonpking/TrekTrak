@@ -108,3 +108,9 @@ body {
     display: inline-block;
     margin-bottom: 10px;
 }
+
+.journalText {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
