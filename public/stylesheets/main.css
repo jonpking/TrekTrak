@@ -1,5 +1,5 @@
 body {
-    font-family: 'Kreon', serif;
+    font-family: 'Laila', serif;
     padding-bottom: 30px;
 }
 
@@ -7,7 +7,6 @@ body {
     margin-bottom: 15px;
     background-color: rgb(115, 237, 251);
     padding: 4px 12px;
-    font-family: 'Laila', serif;
     font-weight: bold;
 }
 
@@ -113,4 +112,6 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    margin-top: 15px;
+    color: #000;
 }
