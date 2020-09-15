@@ -1,37 +1,41 @@
 <%- include ("../partials/header") %>
 
 <div class="container">
-    <div class="row">
-        <div>
-            <h1>Edit <%= journal.name %></h1>
-            <form action="/journals/<%= journal._id %>/?_method=PUT" method="POST">
-                <div class="form-group">
-                    <label for="name">Name: </label>
-                    <div>
-                        <input type="text" name="journal[name]" id="name" value="<%= journal.name %>"
-                            aria-describedby="journalNameHelp">
-                        <small id="journalNameHelp" class="form-text text-muted">30 alphanumeric character limit</small>
-                    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1 class="text-center formHeaderText">Edit <%= journal.name %></h1>
+            <div class="card">
+                <div class="card-body">
+                    <form action="/journals/<%= journal._id %>/?_method=PUT" method="POST">
+                        <div class="form-group">
+                            <label for="name">Name: </label>
+                            <input class="form-control border-dark" type="text" name="journal[name]" id="name"
+                                value="<%= journal.name %>" aria-describedby="journalNameHelp">
+                            <small id="journalNameHelp" class="form-text text-muted">30 alphanumeric character
+                                limit</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="image">Image URL: </label>
+                            <input class="form-control border-dark" type="text" name="journal[image]" id="image"
+                                value="<%= journal.image %>" aria-describedby="journalImageHelp">
+                            <small id="journalImageHelp" class="form-text text-muted">Complete valid URLs only
+                                (format:
+                                http(s)://www.sample.com/image.jpg)</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description: </label>
+                            <textarea class="form-control border-dark" name="journal[description]" id="description"
+                                cols="30" rows="10"
+                                aria-describedby="journalDescriptionHelp"><%= journal.description %></textarea>
+                            <small id="journalDescriptionHelp" class="form-text text-muted">1000 character
+                                limit</small>
+                        </div>
+                        <div class="formSubmitBtnDiv">
+                            <input class="btn-block" type="submit" value="Submit">
+                        </div>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label for="image">Image URL: </label>
-                    <div>
-                        <input type="text" name="journal[image]" id="image" value="<%= journal.image %>"
-                            aria-describedby="journalImageHelp">
-                        <small id="journalImageHelp" class="form-text text-muted">Complete valid URLs only (format:
-                            http(s)://www.sample.com/image.jpg)</small>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="description">Description: </label>
-                    <div>
-                        <textarea name="journal[description]" id="description" cols="30" rows="10"
-                            aria-describedby="journalDescriptionHelp"><%= journal.description %></textarea>
-                        <small id="journalDescriptionHelp" class="form-text text-muted">1000 character limit</small>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
+            </div>
             <!-- <a href="/journals">Back</a> -->
         </div>
     </div>
