@@ -153,3 +153,16 @@ body {
     margin-top: 2rem;
     padding: 0 2.5rem 0 2.5rem;
 }
+
+.formSubmitBtn {
+    background-color: hsla(186, 92%, 42%, 0.8);
+    font-weight: bold;
+    width: 250px;
+    color: #000;
+    border-radius: 0.25rem;
+}
+
+.formSubmitBtn:hover {
+    filter: brightness(125%);
+    -webkit-filter: brightness(125%);
+}
