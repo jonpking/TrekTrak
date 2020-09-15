@@ -5,8 +5,6 @@ const middleware = require("../middleware");
 const Journal = require("../models/journal");
 const Comment = require("../models/comment");
 const validator = require("validator");
-// const User = require("../models/user");
-// const journal = require("../models/journal");
 
 // JOURNAL - INDEX ROUTE
 router.get("/", function (req, res) {

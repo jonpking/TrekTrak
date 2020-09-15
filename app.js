@@ -9,15 +9,13 @@ const LocalStrategy = require("passport-local").Strategy;
 const session = require("express-session");
 const flash = require("connect-flash");
 
-const Journal = require("./models/journal");
-const Comment = require("./models/comment");
 const User = require("./models/user");
 
 const commentRoutes = require("./routes/comments");
 const journalRoutes = require("./routes/journals");
 const indexRoutes = require("./routes/index");
 
-const seedDB = require("./seeds");
+// const seedDB = require("./seeds");
 
 mongoose.connect("mongodb://localhost:27017/trek_trak", {
     useNewUrlParser: true,
