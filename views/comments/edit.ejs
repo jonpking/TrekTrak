@@ -6,7 +6,9 @@
             <h1>Edit comment</h1>
             <form action="/journals/<%= journal_id %>/comments/<%= comment._id %>?_method=PUT" method="POST">
                 <div class="form-group">
-                    <textarea name="comment[text]" id="commentText" cols="30" rows="10"><%= comment.text %></textarea>
+                    <textarea name="comment[text]" id="commentText" cols="30" rows="10"
+                        aria-describedby="commentTextHelp"><%= comment.text %></textarea>
+                    <small id="commentTextHelp" class="form-text text-muted">300 character limit</small>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>

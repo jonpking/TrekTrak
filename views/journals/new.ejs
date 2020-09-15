@@ -8,19 +8,24 @@
                 <div class="form-group">
                     <label for="name">Name: </label>
                     <div>
-                        <input type="text" name="name" id="name">
+                        <input type="text" name="name" id="name" aria-describedby="journalNameHelp">
+                        <small id="journalNameHelp" class="form-text text-muted">30 alphanumeric character limit</small>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="image">Image URL: </label>
                     <div>
-                        <input type="text" name="image" id="image">
+                        <input type="text" name="image" id="image" aria-describedby="journalImageHelp">
+                        <small id="journalImageHelp" class="form-text text-muted">Complete valid URLs only (format:
+                            http(s)://www.sample.com/image.jpg)</small>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="description">Description: </label>
                     <div>
-                        <textarea name="description" cols="30" rows="10" id="description"></textarea>
+                        <textarea name="description" cols="30" rows="10" id="description"
+                            aria-describedby="journalDescriptionHelp"></textarea>
+                        <small id="journalDescriptionHelp" class="form-text text-muted">1000 character limit</small>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
