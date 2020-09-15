@@ -1,38 +1,55 @@
 <%- include ("../partials/header") %>
 
-<h1><%= journal.name %></h1>
-
-<p>
-    <em>Submitted by: <%= journal.author.username %></em>
-</p>
-
-<% if(currentUser && journal.author.id.equals(currentUser._id)){ %>
-<div id="journalEditDelBtns">
-    <a class="btn btn-sm btn-warning" href="/journals/<%= journal._id %>/edit">Edit Journal</a>
-    <form action="/journals/<%= journal._id %>?_method=DELETE" method="POST">
-        <button class="btn btn-sm btn-danger">Delete Journal</button>
-    </form>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-10">
+            <div class="card">
+                <div class="card-header">
+                    <h1 class="text-center showNameText"><%= journal.name %></h1>
+                    <p class="text-center mb-0">
+                        <em>Submitted by: <%= journal.author.username %></em>
+                    </p>
+                    <% if(currentUser && journal.author.id.equals(currentUser._id)){ %>
+                    <div class="d-flex justify-content-around">
+                        <a class="btn btn-sm btn-warning" href="/journals/<%= journal._id %>/edit">Edit Journal</a>
+                        <form action="/journals/<%= journal._id %>?_method=DELETE" method="POST">
+                            <button class="btn btn-sm btn-danger">Delete Journal</button>
+                        </form>
+                    </div>
+                    <% } %>
+                </div>
+                <div class="card-body">
+                    <img src="<%= journal.image %>" alt="" class="card-img">
+                    <p class="mt-2"><%= journal.description %></p>
+                </div>
+                <div class="card-footer">
+                    <div class="mt-1 mb-3 pl-5 pr-5">
+                        <a class="btn btn-block addCommentBtn"
+                            href="/journals/<%= journal._id %>/comments/new">Add Comment</a>
+                    </div>
+                    <% journal.comments.forEach(function(comment){ %>
+                    <ul class="list-group">
+                        <li class="list-group-item"><strong><%= comment.author.username %></strong> -
+                            <%= comment.text %>
+                            <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
+                            <div class="d-flex justify-content-around mt-2">
+                                <a class="btn btn-sm btn-warning"
+                                    href="/journals/<%= journal._id %>/comments/<%= comment._id %>/edit">Edit
+                                    Comment</a>
+                                <form action="/journals/<%= journal._id %>/comments/<%= comment._id %>?_method=DELETE"
+                                    method="POST">
+                                    <button class="btn btn-sm btn-danger">Delete Comment</button>
+                                </form>
+                            </div>
+                            <% } %>
+                        </li>
+                        <% }); %>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<% } %>
-
-<img src="<%= journal.image %>" alt="">
-
-<p><%= journal.description %></p>
-
-<a class="btn btn-primary" href="/journals/<%= journal._id %>/comments/new">Add Comment</a>
-
-<% journal.comments.forEach(function(comment){ %>
-<p>
-    <strong><%= comment.author.username %></strong> - <%= comment.text %>
-</p>
-
-<% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
-<a class="btn btn-warning" href="/journals/<%= journal._id %>/comments/<%= comment._id %>/edit">Edit Comment</a>
-<form action="/journals/<%= journal._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
-    <button class="btn btn-danger">Delete Comment</button>
-</form>
-<% } %>
-<% }); %>
 
 <!-- <a href="/journals">Back</a> -->
 
