@@ -7,7 +7,7 @@
                 <div class="card-header">
                     <h1 class="text-center showNameText"><%= journal.name %></h1>
                     <p class="text-center mb-0">
-                        <em>Submitted by: <%= journal.author.username %></em>
+                        <em>Logged by: <%= journal.author.username %></em>
                     </p>
                     <% if(currentUser && journal.author.id.equals(currentUser._id)){ %>
                     <div class="d-flex justify-content-around">
