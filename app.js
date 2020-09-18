@@ -17,7 +17,7 @@ const indexRoutes = require("./routes/index");
 
 // const seedDB = require("./seeds");
 
-mongoose.connect("mongodb://localhost:27017/trek_trak", {
+mongoose.connect(`mongodb+srv://jonpking:${process.env.MLAB_PASSWORD}@cluster0.rz0pu.mongodb.net/TrekTrak?retryWrites=true&w=majority`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false
